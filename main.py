@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 from typing import List, Union
 
-# Load the map 15
+# Load the map
 roads = load_map_from_csv(Consts.get_data_file_path("tlv.csv"))
 
 # Make `np.random` behave deterministic.
