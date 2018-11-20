@@ -34,14 +34,12 @@ def plot_distance_and_expanded_wrt_weight_figure(
     # https://matplotlib.org/2.0.0/api/_as_gen/matplotlib.axes.Axes.plot.html
     # You can also search google for additional examples.
 
-    ax1.plot(total_distance,'b-')
+    ax1.plot(weights, total_distance,'b-')
 
     # ax1: Make the y-axis label, ticks and tick labels match the line color.
     ax1.set_ylabel('distance traveled', color='b')
     ax1.tick_params('y', colors='b')
     ax1.set_xlabel('weight')
-
-
 
     # Create another axis for the #expanded curve.
     ax2 = ax1.twinx()
@@ -50,13 +48,11 @@ def plot_distance_and_expanded_wrt_weight_figure(
     # TODO: ax2: Make the y-axis label, ticks and tick labels match the line color.
     # TODO: Make this curve colored red with solid line style.
 
-    ax2.plot(total_expanded, 'r-')
+    ax2.plot(weights, total_expanded, 'r-')
 
-    ax2.set_ylabel('distance traveled', color='b')
+    ax2.set_ylabel('states expanded', color='r')
     ax2.tick_params('y', colors='r')
     ax2.set_xlabel('weight')
-
-    raise NotImplemented()
 
     fig.tight_layout()
     plt.show()
