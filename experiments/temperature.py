@@ -3,23 +3,30 @@ from matplotlib import pyplot as plt
 
 X = np.array([400, 450, 900, 390, 550])
 
-# TODO: Write the code as explained in the instructions
 
-T_vals = np.linspace(0.01, 5, 100)
-
-print(P)
+alpha = min(X)
 
 
-def get_probability(i_, T):
-    min_x = min(X)
-    sum_ = 0
+def get_sum(t):
+    sum = 0
     for x in X:
-        sum_ += (x / min_x) ^ (-1/T)
-    return (X[i_] ^ (-1/T))/sum_
+        sum = sum + pow((x / alpha), (-1 / t))
+    return sum
 
+
+def get_probability(i, t):
+    sum = get_sum(t)
+    current = X[i]/alpha
+    return pow(current, (-1/t))/sum
+
+
+T = np.linspace(0.01, 5, 100)
 
 for i in range(len(X)):
-    plt.plot(T, P[:, i], label=str(X[i]))
+    P = []
+    for z in T:
+        P.append(get_probability(i, z))
+    plt.plot(T, P, label=str(X[i]))
 
 plt.xlabel("T")
 plt.ylabel("P")
