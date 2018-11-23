@@ -93,6 +93,8 @@ class RelaxedDeliveriesProblem(GraphProblem):
         For each successor, a pair of the successor state and the operator cost is yielded.
         """
         assert isinstance(state_to_expand, RelaxedDeliveriesState)
+
+
         possible_junctions = self.possible_stop_points - state_to_expand.dropped_so_far
         for junction in possible_junctions:
             if not junction.__eq__(state_to_expand.current_location):
@@ -105,11 +107,13 @@ class RelaxedDeliveriesProblem(GraphProblem):
                         new_gas = self.gas_tank_capacity
                     else:
                         new_gas = state_to_expand.fuel - dist
+                        new_set.add(junction)
 
                     new_state = RelaxedDeliveriesState(current_location=junction,
                                                        dropped_so_far=new_set.union(state_to_expand.dropped_so_far),
                                                        fuel=new_gas)
                     yield new_state, dist
+
 
     def is_goal(self, state: GraphProblemState) -> bool:
         """
