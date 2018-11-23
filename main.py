@@ -34,7 +34,7 @@ def plot_distance_and_expanded_wrt_weight_figure(
     # https://matplotlib.org/2.0.0/api/_as_gen/matplotlib.axes.Axes.plot.html
     # You can also search google for additional examples.
 
-    ax1.plot(weights, total_distance,'b-')
+    ax1.plot(weights, total_distance, 'b-')
 
     # ax1: Make the y-axis label, ticks and tick labels match the line color.
     ax1.set_ylabel('distance traveled', color='b')
@@ -96,19 +96,20 @@ def map_problem():
     #       solve the same `map_prob` with it and print the results (as before).
     # Notice: AStar constructor receives the heuristic *type* (ex: `MyHeuristicClass`),
     #         and not an instance of the heuristic (eg: not `MyHeuristicClass()`).
-    map_prob = MapProblem(roads, 54, 549)
-    a_star = AStar(NullHeuristic)
-    res = a_star.solve_problem(map_prob)
-    print(res)
+
+    #map_prob = MapProblem(roads, 54, 549)
+    #a_star = AStar(NullHeuristic)
+    #res = a_star.solve_problem(map_prob)
+    #print(res)
 
     # Ex.11
     # TODO: create an instance of `AStar` with the `AirDistHeuristic`,
     #       solve the same `map_prob` with it and print the results (as before).
 
-    map_prob = MapProblem(roads, 54, 549)
-    a_star = AStar(AirDistHeuristic)
-    res = a_star.solve_problem(map_prob)
-    print(res)
+    #map_prob = MapProblem(roads, 54, 549)
+    #a_star = AStar(AirDistHeuristic)
+    #res = a_star.solve_problem(map_prob)
+    #print(res)
 
     # Ex.12
     # TODO:
@@ -119,8 +120,9 @@ def map_problem():
     #    (upper in this file).
     # 3. Call here the function `run_astar_for_weights_in_range()`
     #    with `AirDistHeuristic` and `map_prob`.
-    map_prob = MapProblem(roads, 54, 549)
-    run_astar_for_weights_in_range(AirDistHeuristic, map_prob)
+
+    #map_prob = MapProblem(roads, 54, 549)
+    #run_astar_for_weights_in_range(AirDistHeuristic, map_prob)
 
 
 # --------------------------------------------------------------------
@@ -138,7 +140,8 @@ def relaxed_deliveries_problem():
     # Ex.16
     # TODO: create an instance of `AStar` with the `MaxAirDistHeuristic`,
     #       solve the `big_deliveries_prob` with it and print the results (as before).
-    a_star = AStar(MaxAirDistHeuristic)
+
+    a_star = AStar(MaxAirDistHeuristic, 0.5)
     res = a_star.solve_problem(big_deliveries_prob)
     print(res)
 
