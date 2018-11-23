@@ -39,8 +39,8 @@ class RelaxedDeliveriesState(GraphProblemState):
         TODO: implement this method!
         Notice: Never compare floats using `==` operator! Use `fuel_as_int` instead of `fuel`.
         """
-        return (self.dropped_so_far == other.dropped_so_far) and (self.current_location == other.current_location)\
-        and (self.fuel_as_int == other.fuel_as_int)
+        return self.current_location == other.current_location and self.dropped_so_far == other.dropped_so_far \
+               and self.fuel_as_int == other.fuel_as_int
 
     def __hash__(self):
         """
@@ -49,7 +49,7 @@ class RelaxedDeliveriesState(GraphProblemState):
 
         TODO: implement this method!
         A common implementation might be something in the format of:
-        >>> return hash((self.some_field1, self.some_field2, self.some_field3))
+        #>>> return hash((self.some_field1, self.some_field2, self.some_field3))
         Notice: Do NOT give float fields to `hash(...)`.
                 Otherwise the upper requirement would not met.
                 In our case, use `fuel_as_int`.
@@ -85,7 +85,6 @@ class RelaxedDeliveriesProblem(GraphProblem):
 
     def expand_state_with_costs(self, state_to_expand: GraphProblemState) -> Iterator[Tuple[GraphProblemState, float]]:
         """
-        TODO: implement this method!
         This method represents the `Succ: S -> P(S)` function of the relaxed deliveries problem.
         The `Succ` function is defined by the problem operators as shown in class.
         The relaxed problem operators are defined in the assignment instructions.
@@ -94,22 +93,23 @@ class RelaxedDeliveriesProblem(GraphProblem):
         For each successor, a pair of the successor state and the operator cost is yielded.
         """
         assert isinstance(state_to_expand, RelaxedDeliveriesState)
+        possible_junctions = self.possible_stop_points - state_to_expand.dropped_so_far
+        for junction in possible_junctions:
+            if not junction.__eq__(state_to_expand.current_location):
+                dist = state_to_expand.current_location.calc_air_distance_from(junction)
+                if dist <= state_to_expand.fuel:
+                    new_set = set()
+                    if state_to_expand.current_location in self.drop_points:
+                        new_set.add(state_to_expand.current_location)
+                    if junction in self.gas_stations:
+                        new_gas = self.gas_tank_capacity
+                    else:
+                        new_gas = state_to_expand.fuel - dist
 
-        for junction in (self.possible_stop_points-state_to_expand.dropped_so_far):
-            dist = state_to_expand.current_location.calc_air_distance_from(junction)
-            if dist > state_to_expand.fuel:
-                if self.gas_stations.__contains__(state_to_expand):
-                    new_dropped_so_far = state_to_expand.dropped_so_far
-                else:
-                    new_dropped_so_far = state_to_expand.dropped_so_far | {state_to_expand}
-
-                if self.gas_stations.__contains__(junction):
-                    new_gas = self.gas_tank_capacity
-                else:
-                    new_gas = state_to_expand.fuel-dist
-
-                new_state = RelaxedDeliveriesState(junction, new_dropped_so_far, new_gas)
-                yield (new_state, dist)
+                    new_state = RelaxedDeliveriesState(current_location=junction,
+                                                       dropped_so_far=new_set.union(state_to_expand.dropped_so_far),
+                                                       fuel=new_gas)
+                    yield new_state, dist
 
     def is_goal(self, state: GraphProblemState) -> bool:
         """
