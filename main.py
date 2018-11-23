@@ -104,6 +104,7 @@ def map_problem():
     # Ex.11
     # TODO: create an instance of `AStar` with the `AirDistHeuristic`,
     #       solve the same `map_prob` with it and print the results (as before).
+
     map_prob = MapProblem(roads, 54, 549)
     a_star = AStar(AirDistHeuristic)
     res = a_star.solve_problem(map_prob)
@@ -120,7 +121,6 @@ def map_problem():
     #    with `AirDistHeuristic` and `map_prob`.
     map_prob = MapProblem(roads, 54, 549)
     run_astar_for_weights_in_range(AirDistHeuristic, map_prob)
-    exit()  # TODO: remove!
 
 
 # --------------------------------------------------------------------
@@ -138,6 +138,9 @@ def relaxed_deliveries_problem():
     # Ex.16
     # TODO: create an instance of `AStar` with the `MaxAirDistHeuristic`,
     #       solve the `big_deliveries_prob` with it and print the results (as before).
+    a_star = AStar(MaxAirDistHeuristic)
+    res = a_star.solve_problem(big_deliveries_prob)
+    print(res)
     exit()  # TODO: remove!
 
     # Ex.17

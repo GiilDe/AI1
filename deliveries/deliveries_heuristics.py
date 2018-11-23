@@ -18,11 +18,17 @@ class MaxAirDistHeuristic(HeuristicFunction):
          represented by `state` and the locations of the waiting deliveries.
         TODO: implement this method!
         """
+
         assert isinstance(self.problem, RelaxedDeliveriesProblem)
         assert isinstance(state, RelaxedDeliveriesState)
 
-        raise NotImplemented()  # TODO: remove!
+        max_dist = 0
+        for junction in self.problem.drop_points-state.dropped_so_far:
+            curr_dist = state.current_location.calc_air_distance_from(junction)
+            if curr_dist > max_dist:
+                max_dist = curr_dist
 
+        return max_dist
 
 class MSTAirDistHeuristic(HeuristicFunction):
     heuristic_name = 'MSTAirDist'

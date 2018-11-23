@@ -39,7 +39,8 @@ class RelaxedDeliveriesState(GraphProblemState):
         TODO: implement this method!
         Notice: Never compare floats using `==` operator! Use `fuel_as_int` instead of `fuel`.
         """
-        raise NotImplemented()  # TODO: remove!
+        return (self.dropped_so_far == other.dropped_so_far) and (self.current_location == other.current_location)\
+        and (self.fuel_as_int == other.fuel_as_int)
 
     def __hash__(self):
         """
@@ -53,7 +54,8 @@ class RelaxedDeliveriesState(GraphProblemState):
                 Otherwise the upper requirement would not met.
                 In our case, use `fuel_as_int`.
         """
-        raise NotImplemented()  # TODO: remove!
+
+        return hash((self.current_location, self.dropped_so_far, self.fuel))
 
     def __str__(self):
         """
@@ -93,7 +95,21 @@ class RelaxedDeliveriesProblem(GraphProblem):
         """
         assert isinstance(state_to_expand, RelaxedDeliveriesState)
 
-        raise NotImplemented()  # TODO: remove!
+        for junction in (self.possible_stop_points-state_to_expand.dropped_so_far):
+            dist = state_to_expand.current_location.calc_air_distance_from(junction)
+            if dist > state_to_expand.fuel:
+                if self.gas_stations.__contains__(state_to_expand):
+                    new_dropped_so_far = state_to_expand.dropped_so_far
+                else:
+                    new_dropped_so_far = state_to_expand.dropped_so_far | {state_to_expand}
+
+                if self.gas_stations.__contains__(junction):
+                    new_gas = self.gas_tank_capacity
+                else:
+                    new_gas = state_to_expand.fuel-dist
+
+                new_state = RelaxedDeliveriesState(junction, new_dropped_so_far, new_gas)
+                yield (new_state, dist)
 
     def is_goal(self, state: GraphProblemState) -> bool:
         """
@@ -101,8 +117,7 @@ class RelaxedDeliveriesProblem(GraphProblem):
         TODO: implement this method!
         """
         assert isinstance(state, RelaxedDeliveriesState)
-
-        raise NotImplemented()  # TODO: remove!
+        return state.dropped_so_far == self.drop_points
 
     def solution_additional_str(self, result: 'SearchResult') -> str:
         """This method is used to enhance the printing method of a found solution."""
