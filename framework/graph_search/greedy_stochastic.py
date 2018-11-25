@@ -3,6 +3,7 @@ from .best_first_search import BestFirstSearch
 from typing import Optional
 import numpy as np
 
+
 class GreedyStochastic(BestFirstSearch):
     def __init__(self, heuristic_function_type: HeuristicFunctionType,
                  T_init: float = 1.0, N: int = 5, T_scale_factor: float = 0.95):
@@ -59,6 +60,10 @@ class GreedyStochastic(BestFirstSearch):
                 of these popped items. The other items have to be
                 pushed again into that queue.
         """
+        best_N = []
+        size = self.open.__len__()
+        for _ in min(range(self.N), size):
+            best_N = best_N.append(self.open.pop_next_node())
 
         alpha = min(best_N)
 

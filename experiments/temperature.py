@@ -21,7 +21,8 @@ def get_probability(i, t):
 
 
 T = np.linspace(0.01, 5, 100)
-
+#TODO
+#TODO check what about print(p) that you deleted
 for i in range(len(X)):
     P = []
     for z in T:
