@@ -21,9 +21,6 @@ class GreedyStochastic(BestFirstSearch):
         self.heuristic_function = self.heuristic_function_type(problem)
 
     def _open_successor_node(self, problem: GraphProblem, successor_node: SearchNode):
-        """
-        TODO: implement this method!
-        """
         if self.open.has_state(successor_node.state):
             old_node = self.open.get_node_by_state(successor_node.state)
             if successor_node.expanding_priority < old_node.expanding_priority:
@@ -36,7 +33,6 @@ class GreedyStochastic(BestFirstSearch):
                 self.open.push_node(successor_node)
         else:
             self.open.push_node(successor_node)
-
 
     def _calc_node_expanding_priority(self, search_node: SearchNode) -> float:
         """
@@ -69,6 +65,11 @@ class GreedyStochastic(BestFirstSearch):
             best_N_heuristics.append(self._calc_node_expanding_priority(temp))
 
         alpha = min(best_N_heuristics)
+        if alpha == 0: #TODO !!!!!! make sure this is the right way!
+            temp = best_N[0]
+            for _ in range(best_N.__len__()):
+                self.open.push_node(best_N.pop())
+            return temp
 
         def get_sum(t):
             sum = 0

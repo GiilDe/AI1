@@ -195,15 +195,27 @@ def relaxed_deliveries_problem():
     a_star_res = (AStar(MSTAirDistHeuristic)).solve_problem(big_deliveries_prob)
     greedy_best_first_res = (AStar(MSTAirDistHeuristic, 1)).solve_problem(big_deliveries_prob)
 
-    ax1 = plt.subplot()
-    ax1.plot(any_time_arr, P, label=str(X[i]))
+    fig, ax1 = plt.subplots()
 
-    plt.xlabel("T")
-    plt.ylabel("P")
-    plt.title("Probability as a function of the temperature")
+    a_star_res_arr = []
+    greedy_best_first_res_arr = []
+    for _ in range(100):
+        a_star_res_arr.append(a_star_res.final_search_node.cost)
+        greedy_best_first_res_arr.append(greedy_best_first_res.final_search_node.cost)
+
+    ax1.plot(range(100), first_100, 'b-')
+    ax1.plot(range(100), any_time_arr, 'r-')
+    ax1.plot(range(100), a_star_res_arr, 'g-')
+    ax1.plot(range(100), greedy_best_first_res_arr, 'y-')
+
+    plt.xlabel("iteration")
+    plt.ylabel("costs")
     plt.legend()
     plt.grid()
+    fig.tight_layout()
     plt.show()
+
+
     exit()  # TODO: remove!
 
 
