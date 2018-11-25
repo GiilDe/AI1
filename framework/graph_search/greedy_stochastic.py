@@ -3,7 +3,6 @@ from .best_first_search import BestFirstSearch
 from typing import Optional
 import numpy as np
 
-
 class GreedyStochastic(BestFirstSearch):
     def __init__(self, heuristic_function_type: HeuristicFunctionType,
                  T_init: float = 1.0, N: int = 5, T_scale_factor: float = 0.95):
@@ -24,16 +23,26 @@ class GreedyStochastic(BestFirstSearch):
         """
         TODO: implement this method!
         """
+        if self.open.has_state(successor_node.state):
+            old_node = self.open.get_node_by_state(successor_node.state)
+            if successor_node.expanding_priority < old_node.expanding_priority:
+                self.open.extract_node(old_node)
+                self.open.push_node(successor_node)
+        elif self.close.has_state(successor_node.state):
+            old_node = self.close.get_node_by_state(successor_node.state)
+            if successor_node.expanding_priority < old_node.expanding_priority:
+                self.close.remove_node(old_node)
+                self.open.push_node(successor_node)
+        else:
+            self.open.push_node(successor_node)
 
-        raise NotImplemented()  # TODO: remove!
 
     def _calc_node_expanding_priority(self, search_node: SearchNode) -> float:
         """
         TODO: implement this method!
         Remember: `GreedyStochastic` is greedy.
         """
-
-        raise NotImplemented()  # TODO: remove!
+        return self.heuristic_function.estimate(search_node.state)
 
     def _extract_next_search_node_to_expand(self) -> Optional[SearchNode]:
         """
@@ -51,4 +60,22 @@ class GreedyStochastic(BestFirstSearch):
                 pushed again into that queue.
         """
 
-        raise NotImplemented()  # TODO: remove!
+        alpha = min(best_N)
+
+        def get_sum(t):
+            sum = 0
+            for x in best_N:
+                sum = sum + pow((x / alpha), (-1 / t))
+            return sum
+
+        def get_probability(i, t):
+            sum = get_sum(t)
+            current = best_N[i] / alpha
+            return pow(current, (-1 / t)) / sum
+
+        P = []
+        for i in range(len(best_N)):
+            P.append(get_probability(i, self.T))
+
+        return np.random.choice(a=best_N, size=1, p=P)
+

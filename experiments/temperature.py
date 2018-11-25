@@ -6,7 +6,7 @@ X = np.array([400, 450, 900, 390, 550])
 
 alpha = min(X)
 
-//
+
 def get_sum(t):
     sum = 0
     for x in X:
@@ -34,4 +34,6 @@ plt.title("Probability as a function of the temperature")
 plt.legend()
 plt.grid()
 plt.show()
+
+
 exit()
