@@ -187,7 +187,7 @@ def relaxed_deliveries_problem():
     first_100.append(res)
     any_time_arr.append(res)
     for i in range(99):
-        temp_res = greedy_stochastic.solve_problem(big_deliveries_prob)
+        temp_res = greedy_stochastic.solve_problem(big_deliveries_prob).
         temp_min = min(temp_min, temp_res)
         any_time_arr.append(temp_min)
         first_100.append(temp_res)

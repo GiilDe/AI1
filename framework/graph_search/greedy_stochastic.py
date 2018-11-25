@@ -86,7 +86,7 @@ class GreedyStochastic(BestFirstSearch):
             P.append(get_probability(i, self.T))
 
         self.T = self.T*self.T_scale_factor
-        rand = np.random.choice(a=best_N, size=1, p=P)
+        rand = (np.random.choice(a=best_N, size=1, p=P))[0]
         best_N.remove(rand)
         for _ in range(best_N.__len__()):
             self.open.push_node(best_N.pop())
