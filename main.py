@@ -182,15 +182,15 @@ def relaxed_deliveries_problem():
     greedy_stochastic = GreedyStochastic(MSTAirDistHeuristic)
     first_100 = []
     any_time_arr = []
-    res = greedy_stochastic.solve_problem(big_deliveries_prob)
-    temp_min = res
-    first_100.append(res)
-    any_time_arr.append(res)
+    res_cost = greedy_stochastic.solve_problem(big_deliveries_prob).final_search_node.cost
+    temp_min = res_cost
+    first_100.append(res_cost)
+    any_time_arr.append(res_cost)
     for i in range(99):
-        temp_res = greedy_stochastic.solve_problem(big_deliveries_prob).
-        temp_min = min(temp_min, temp_res)
+        temp_res_cost = greedy_stochastic.solve_problem(big_deliveries_prob).final_search_node.cost
+        temp_min = min(temp_min, temp_res_cost)
         any_time_arr.append(temp_min)
-        first_100.append(temp_res)
+        first_100.append(temp_res_cost)
 
     a_star_res = (AStar(MSTAirDistHeuristic)).solve_problem(big_deliveries_prob)
     greedy_best_first_res = (AStar(MSTAirDistHeuristic, 1)).solve_problem(big_deliveries_prob)
