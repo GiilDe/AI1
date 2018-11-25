@@ -64,8 +64,9 @@ class GreedyStochastic(BestFirstSearch):
         best_N_heuristics = []
         size = self.open.__len__()
         for _ in range((min(self.N, size))):
-            best_N.append(self.open.pop_next_node())
-            best_N_heuristics.append(self.open.pop_next_node().expanding_priority)
+            temp = self.open.pop_next_node()
+            best_N.append(temp)
+            best_N_heuristics.append(self._calc_node_expanding_priority(temp))
 
         alpha = min(best_N_heuristics)
 
