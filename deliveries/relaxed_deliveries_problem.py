@@ -94,7 +94,6 @@ class RelaxedDeliveriesProblem(GraphProblem):
         """
         assert isinstance(state_to_expand, RelaxedDeliveriesState)
 
-
         possible_junctions = self.possible_stop_points - state_to_expand.dropped_so_far
         for junction in possible_junctions:
             if not junction.__eq__(state_to_expand.current_location):

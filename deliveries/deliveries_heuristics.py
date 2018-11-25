@@ -8,7 +8,6 @@ import numpy as np
 from scipy.sparse.csgraph import minimum_spanning_tree as mst
 from typing import Set, Dict, FrozenSet
 
-
 class MaxAirDistHeuristic(HeuristicFunction):
     heuristic_name = 'MaxAirDist'
 

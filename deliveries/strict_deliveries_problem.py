@@ -66,9 +66,31 @@ class StrictDeliveriesProblem(RelaxedDeliveriesProblem):
         Notice that this is an *Iterator*. Hence it should be implemented using the `yield` keyword.
         For each successor, a pair of the successor state and the operator cost is yielded.
         """
-        assert isinstance(state_to_expand, StrictDeliveriesState)
+        assert isinstance(state_to_expand, RelaxedDeliveriesState)
 
-        raise NotImplemented()  # TODO: remove!
+        for junction in self.possible_stop_points-state_to_expand.dropped_so_far:
+            source = state_to_expand.current_location.index
+            dest = junction.index
+            cost = self._get_from_cache((min(source, dest), max(source, dest)))
+            if not cost:
+                map_ = MapProblem(self.roads, state_to_expand.current_location.index, junction.index)
+                cost = self.inner_problem_solver.solve_problem(map_).final_search_node.cost
+                self._insert_to_cache((min(source, dest), max(source, dest)), cost)
+            if cost <= state_to_expand.fuel:
+                new_set = set()
+                if state_to_expand.current_location in self.drop_points:
+                    new_set.add(state_to_expand.current_location)
+                if junction in self.gas_stations:
+                    new_gas = self.gas_tank_capacity
+                else:
+                    new_gas = state_to_expand.fuel - cost
+                    new_set.add(junction)
+
+                new_state = StrictDeliveriesState(current_location=junction,
+                            dropped_so_far=new_set.union(state_to_expand.dropped_so_far),
+                            fuel=new_gas)
+
+                yield new_state, cost
 
     def is_goal(self, state: GraphProblemState) -> bool:
         """
@@ -77,4 +99,4 @@ class StrictDeliveriesProblem(RelaxedDeliveriesProblem):
         """
         assert isinstance(state, StrictDeliveriesState)
 
-        raise NotImplemented()  # TODO: remove!
+        return state.dropped_so_far == self.drop_points
