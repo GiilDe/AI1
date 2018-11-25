@@ -81,6 +81,7 @@ def run_astar_for_weights_in_range(heuristic_type: HeuristicFunctionType, proble
 
     plot_distance_and_expanded_wrt_weight_figure(np.linspace(0.5, 1, 20), costs, expanded_states_num)
 
+
 def map_problem():
     print()
     print('Solve the map problem.')
@@ -191,13 +192,18 @@ def relaxed_deliveries_problem():
         any_time_arr.append(temp_min)
         first_100.append(temp_res)
 
-    a_star_res=(AStar(MSTAirDistHeuristic)).solve_problem(big_deliveries_prob)
-    greedy_best_first_res=(AStar(MSTAirDistHeuristic,1)).solve_problem(big_deliveries_prob)
+    a_star_res = (AStar(MSTAirDistHeuristic)).solve_problem(big_deliveries_prob)
+    greedy_best_first_res = (AStar(MSTAirDistHeuristic, 1)).solve_problem(big_deliveries_prob)
 
+    ax1 = plt.subplot()
+    ax1.plot(any_time_arr, P, label=str(X[i]))
 
-
-    res = a_star.solve_problem(big_deliveries_prob)
-    print(res)
+    plt.xlabel("T")
+    plt.ylabel("P")
+    plt.title("Probability as a function of the temperature")
+    plt.legend()
+    plt.grid()
+    plt.show()
     exit()  # TODO: remove!
 
 

@@ -61,26 +61,33 @@ class GreedyStochastic(BestFirstSearch):
                 pushed again into that queue.
         """
         best_N = []
+        best_N_heuristics = []
         size = self.open.__len__()
-        for _ in min(range(self.N), size):
-            best_N = best_N.append(self.open.pop_next_node())
+        for _ in range((min(self.N, size))):
+            best_N.append(self.open.pop_next_node())
+            best_N_heuristics.append(self.open.pop_next_node().expanding_priority)
 
-        alpha = min(best_N)
+        alpha = min(best_N_heuristics)
 
         def get_sum(t):
             sum = 0
-            for x in best_N:
-                sum = sum + pow((x / alpha), (-1 / t))
+            for x in best_N_heuristics:
+                sum = sum + pow((x/alpha), (-1/t))
             return sum
 
         def get_probability(i, t):
             sum = get_sum(t)
-            current = best_N[i] / alpha
-            return pow(current, (-1 / t)) / sum
+            current = best_N_heuristics[i]/alpha
+            return pow(current, (-1 / t))/sum
 
         P = []
         for i in range(len(best_N)):
             P.append(get_probability(i, self.T))
 
-        return np.random.choice(a=best_N, size=1, p=P)
+        self.T = self.T*self.T_scale_factor
+        rand = np.random.choice(a=best_N, size=1, p=P)
+        best_N.remove(rand)
+        for _ in range(best_N.__len__()):
+            self.open.push_node(best_N.pop())
 
+        return rand
