@@ -79,6 +79,10 @@ class RelaxedDeliveriesHeuristic(HeuristicFunction):
 
         assert isinstance(self.problem, StrictDeliveriesProblem)
         assert isinstance(state, StrictDeliveriesState)
-
-        raise NotImplemented()  # TODO: remove!
+        prob_input = DeliveriesProblemInput("heuristic", state.current_location, self.problem.drop_points,
+                               self.problem.gas_stations, state.fuel, self.problem.gas_tank_capacity)
+        problem = RelaxedDeliveriesProblem(prob_input)
+        a_star = AStar(MSTAirDistHeuristic)
+        res = a_star.solve_problem(problem)
+        return res.final_search_node.cost
 
