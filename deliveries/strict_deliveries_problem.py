@@ -68,13 +68,13 @@ class StrictDeliveriesProblem(RelaxedDeliveriesProblem):
         """
         assert isinstance(state_to_expand, RelaxedDeliveriesState)
 
+        source = state_to_expand.current_location.index
         for junction in self.possible_stop_points-state_to_expand.dropped_so_far:
-            source = state_to_expand.current_location.index
             dest = junction.index
             cost = self._get_from_cache((min(source, dest), max(source, dest)))
             if not cost:
-                map_ = MapProblem(self.roads, state_to_expand.current_location.index, junction.index)
-                cost = self.inner_problem_solver.solve_problem(map_).final_search_node.cost
+                prob = MapProblem(roads=self.roads, source_junction_id=source, target_junction_id=dest)
+                cost = self.inner_problem_solver.solve_problem(prob).final_search_node.cost
                 self._insert_to_cache((min(source, dest), max(source, dest)), cost)
             if cost <= state_to_expand.fuel:
                 new_set = set()
