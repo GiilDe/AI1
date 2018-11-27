@@ -64,7 +64,7 @@ class StrictDeliveriesProblem(RelaxedDeliveriesProblem):
         The relaxed problem operators are defined in the assignment instructions.
         It receives a state and iterates over the successor states.
         Notice that this is an *Iterator*. Hence it should be implemented using the `yield` keyword.
-        For each successor, a pair of the successor state and the operator cost is yielded.
+        For z each successor, a pair of the successor state and the operator cost is yielded.
         """
         assert isinstance(state_to_expand, RelaxedDeliveriesState)
 
