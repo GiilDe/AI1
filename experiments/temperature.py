@@ -23,12 +23,17 @@ def get_probability(i, t):
 T = np.linspace(0.01, 5, 100)
 #TODO
 #TODO check what about print(p) that you deleted
+w, h = 100, 5
+P = [[0 for x in range(w)] for y in range(h)]
+k = 0
 for i in range(len(X)):
-    P = []
+    m = 0
     for z in T:
-        P.append(get_probability(i, z))
-    plt.plot(T, P, label=str(X[i]))
+        P[k][m] = get_probability(i, z)
 
+    plt.plot(T, P[i], label=str(X[i]))
+
+print(P)
 plt.xlabel("T")
 plt.ylabel("P")
 plt.title("Probability as a function of the temperature")

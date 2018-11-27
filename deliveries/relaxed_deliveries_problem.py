@@ -55,7 +55,7 @@ class RelaxedDeliveriesState(GraphProblemState):
                 In our case, use `fuel_as_int`.
         """
 
-        return hash((self.current_location, self.dropped_so_far, self.fuel))
+        return hash((self.current_location, self.dropped_so_far, self.fuel_as_int))
 
     def __str__(self):
         """

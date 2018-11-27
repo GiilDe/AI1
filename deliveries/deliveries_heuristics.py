@@ -85,10 +85,9 @@ class RelaxedDeliveriesHeuristic(HeuristicFunction):
                                             gas_tank_capacity=self.problem.gas_tank_capacity,
                                             gas_tank_init_fuel=state.fuel)
         problem = RelaxedDeliveriesProblem(prob_input)
-        a_star = AStar(MSTAirDistHeuristic, 0.5)
+        a_star = AStar(MaxAirDistHeuristic, 0.5)
         res = a_star.solve_problem(problem)
         if not res.final_search_node:
             return float('inf')
-        else:
-            return res.final_search_node.cost
+        return res.final_search_node.cost
 
