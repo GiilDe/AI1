@@ -79,8 +79,8 @@ class RelaxedDeliveriesHeuristic(HeuristicFunction):
 
         assert isinstance(self.problem, StrictDeliveriesProblem)
         assert isinstance(state, StrictDeliveriesState)
-        prob_input = DeliveriesProblemInput(input_name="name", start_point=state.current_location, drop_points=
-                                            self.problem.drop_points-state.dropped_so_far-{state.current_location},
+        prob_input = DeliveriesProblemInput("name", state.current_location, drop_points=
+                                            self.problem.drop_points - state.dropped_so_far - {state.current_location},
                                             gas_stations=self.problem.gas_stations,
                                             gas_tank_capacity=self.problem.gas_tank_capacity,
                                             gas_tank_init_fuel=state.fuel)
