@@ -210,7 +210,6 @@ def relaxed_deliveries_problem():
 
     plt.xlabel("iteration")
     plt.ylabel("costs")
-    plt.legend()
     plt.grid()
     fig.tight_layout()
     plt.show()
@@ -243,8 +242,8 @@ def strict_deliveries_problem():
     print(res)
 
 def main():
-    #map_problem()
-    #relaxed_deliveries_problem()
+    map_problem()
+    relaxed_deliveries_problem()
     strict_deliveries_problem()
 
 
