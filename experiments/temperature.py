@@ -22,7 +22,6 @@ def get_probability(i, t):
 
 T = np.linspace(0.01, 5, 100)
 #TODO
-#TODO check what about print(p) that you deleted
 w, h = 100, 5
 P = [[0 for x in range(w)] for y in range(h)]
 k = 0
@@ -30,7 +29,8 @@ for i in range(len(X)):
     m = 0
     for z in T:
         P[k][m] = get_probability(i, z)
-
+        m = m + 1
+    k = k + 1
     plt.plot(T, P[i], label=str(X[i]))
 
 print(P)
